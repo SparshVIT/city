@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>City Selector</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+	margin: 0 auto;
+	max-width: 600px;
+	padding: 20px;
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+label {
+	font-weight: bold;
+}
+
+select {
+	font-size: 1.2em;
+	padding: 10px;
+}
+
+button {
+	background-color:
+}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<h1>City Selector</h1>
+		<p>Answer the following questions to find out which city is best for you to live and work in.</p>
+		<form id="quiz">
+			<label for="q1">1. What is your profession?</label>
+			<select name="q1" id="q1">
+				<option value="">Select one</option>
+				<option value="1">IT</option>
+				<option value="2">Education</option>
+				<option value="3">Healthcare</option>
+				<option value="4">Finance</option>
+				<option value="5">Other</option>
+			</select>
+
+			<label for="q2">2. What is your preferred climate?</label>
+			<select name="q2" id="q2">
+				<option value="">Select one</option>
+				<option value="1">Hot and Humid</option>
+				<option value="2">Cool and Dry</option>
+				<option value="3">Warm and Sunny</option>
+				<option value="4">Cold and Snowy</option>
+			</select>
+
+			<label for="q3">3. How important is nightlife to you?</label>
+			<select name="q3" id="q3">
+				<option value="">Select one</option>
+				<option value="1">Very important</option>
+				<option value="2">Somewhat important</option>
+				<option value="3">Not important</option>
+			</select>
+
+			<label for="q4">4. What is your budget for housing?</label>
+			<select name="q4" id="q4">
+				<option value="">Select one</option>
+				<option value="1">Less than 20,000</option>
+				<option value="2">20,000 - 40,000</option>
+				<option value="3">40,000 - 60,000</option>
+				<option value="4">More than 60,000</option>
+			</select>
+
+			<label for="q5">5. How important is access to public transportation?</label>
+			<select name="q5" id="q5">
+				<option value="">Select one</option>
+				<option value="1">Very important</option>
+				<option value="2">Somewhat important</option>
+				<option value="3">Not important</option>
+			</select>
+
+			<button type="submit">Submit</button>
+		</form>
+		<div id="result"></div>
+	</div>
+	<script>
+        const quiz = document.getElementById('quiz');
+        const result = document.getElementById('result');
+
+quiz.addEventListener('submit', (e) => {
+	e.preventDefault();
+
+	// Get the user's answers
+	const q1 = quiz.q1.value;
+	const q2 = quiz.q2.value;
+	const q3 = quiz.q3.value;
+	const q4 = quiz.q4.value;
+	const q5 = quiz.q5.value;
+
+	// Calculate the score for each city
+	const mumbaiScore = Number(q1 === '1') + Number(q2 === '1') + Number(q3 === '1') + Number(q4 === '1' || q4 === '2') + Number(q5 === '1' || q5 === '2');
+	const delhiScore = Number(q1 === '4' || q1 === '5') + Number(q2 === '4') + Number(q3 === '1' || q3 === '2') + Number(q4 === '4') + Number(q5 === '1' || q5 === '2');
+	const puneScore = Number(q1 === '2') + Number(q2 === '2' || q2 === '3') + Number(q3 === '2' || q3 === '3') + Number(q4 === '3') + Number(q5 === '1' || q5 === '2');
+	const hyderabadScore = Number(q1 === '3') + Number(q2 === '1' || q2 === '2') + Number(q3 === '3') + Number(q4 === '3') + Number(q5 === '1' || q5 === '2');
+	const bangaloreScore = Number(q1 === '1' || q1 === '4') + Number(q2 === '3') + Number(q3 === '1' || q3 === '2') + Number(q4 === '2' || q4 === '3') + Number(q5 === '1' || q5 === '2');
+	const chennaiScore = Number(q1 === '5') + Number(q2 === '1' || q2 === '2') + Number(q3 === '3') + Number(q4 === '1' || q4 === '2') + Number(q5 === '3');
+
+	// Find the city with the highest score
+	const scores = { mumbai: mumbaiScore, delhi: delhiScore, pune: puneScore, hyderabad: hyderabadScore, bangalore: bangaloreScore, chennai: chennaiScore };
+	const maxScore = Math.max(...Object.values(scores));
+	const resultCity = Object.keys(scores).find((city) => scores[city] === maxScore);
+
+	// Display the result
+	result.innerHTML = `<p>Based on your answers, we recommend that you consider <strong>${resultCity}</strong> as a city to live and work in.</p>`;
+});
+
+    </script>
+</body>
+</html>
